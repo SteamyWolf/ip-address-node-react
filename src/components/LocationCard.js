@@ -1,12 +1,13 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import { Button, Card, CardActionArea, Typography, CardMedia, CardContent, List, ListItem, ListItemAvatar, Avatar, ListItemText, CardActions } from '@material-ui/core';
+import { Button, Card, CardActionArea, Typography, CardContent, List, ListItem, ListItemAvatar, Avatar, ListItemText, CardActions } from '@material-ui/core';
 import LocationCityIcon from '@material-ui/icons/LocationCity';
 import PublicIcon from '@material-ui/icons/Public';
 import LandscapeIcon from '@material-ui/icons/Landscape';
 import ScheduleIcon from '@material-ui/icons/Schedule';
 import BusinessCenterIcon from '@material-ui/icons/BusinessCenter';
 import StarBorderIcon from '@material-ui/icons/StarBorder';
+import StarIcon from '@material-ui/icons/Star';
 
 const useStyles = makeStyles((theme) => ({
     card: {
@@ -19,7 +20,7 @@ const useStyles = makeStyles((theme) => ({
     }
 }));
 
-const LocationCard = ( {data, saveToFavorites} ) => {
+const LocationCard = ( {data, saveToFavorites, favorited} ) => {
     const classes = useStyles();
     let ipAddressData = data;
 
@@ -27,9 +28,6 @@ const LocationCard = ( {data, saveToFavorites} ) => {
         <>
             <Card className={classes.card}>
                     <CardActionArea>
-                        <CardMedia>
-
-                        </CardMedia>
                         <CardContent>
                             <Typography gutterBottom variant="h5" component="h2">
                                 IP: <b>{ipAddressData.query}</b>
@@ -79,7 +77,7 @@ const LocationCard = ( {data, saveToFavorites} ) => {
                         </CardContent>
                     </CardActionArea>
                     <CardActions>
-                        <Button size="small" color="primary" variant="contained" startIcon={<StarBorderIcon />} onClick={saveToFavorites}>
+                        <Button size="small" color="primary" variant="contained" startIcon={favorited ? <StarIcon /> : <StarBorderIcon />} onClick={saveToFavorites}>
                             Save to Favorites
                         </Button>
                     </CardActions>
