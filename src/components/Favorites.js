@@ -93,13 +93,8 @@ const Favorites = () => {
         setLoading(false);
     }
 
-    const onEditClick = (id, updated) => {
-        let foundFavorite;
-        if (updated) {
-            foundFavorite = {editing: true, ...updated}
-        } else {
-            foundFavorite = ipAddressData.find(favorite => favorite._id === id)
-        }
+    const onEditClick = (id) => {
+        let foundFavorite = ipAddressData.find(favorite => favorite._id === id)
         setEditingFavorite(foundFavorite)
         foundFavorite.editing = !foundFavorite.editing;
         let index = ipAddressData.findIndex(element => element._id === foundFavorite._id)
@@ -110,7 +105,14 @@ const Favorites = () => {
 
     const saveChanges = async (id) => {
         let updated = await axios.put(`https://ip-address-app-wyatt.herokuapp.com/location/put`, editingFavorite);
-        onEditClick(id, updated.data)
+        let oldFavorite = ipAddressData.find(favorite => favorite._id === id);
+        let indexOfOldFavorite = ipAddressData.findIndex(element => element._id === oldFavorite._id)
+        let newIP = [...ipAddressData]
+        let returnedFavorite = {editing: false, ...updated.data};
+        newIP.splice(indexOfOldFavorite, 1, returnedFavorite)
+        setIpAddressData(newIP)
+
+
     }
 
     const onChanges = (event, string, id) => {
