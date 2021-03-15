@@ -97,8 +97,13 @@ const Favorites = () => {
         setLoading(false);
     }
 
-    const onEditClick = (id) => {
-        let foundFavorite = ipAddressData.find(favorite => favorite._id === id)
+    const onEditClick = (id, updated) => {
+        let foundFavorite;
+        if (updated) {
+            foundFavorite = {editing: true, ...updated}
+        } else {
+            foundFavorite = ipAddressData.find(favorite => favorite._id === id)
+        }
         setEditingFavorite(foundFavorite)
         foundFavorite.editing = !foundFavorite.editing;
         let index = ipAddressData.findIndex(element => element._id === foundFavorite._id)
@@ -111,6 +116,7 @@ const Favorites = () => {
         console.log(editingFavorite, id)
         let updated = await axios.put(`http://localhost:3000/location/put`, editingFavorite);
         console.log(updated)
+        onEditClick(id, updated.data)
     }
 
     const onChanges = (event, string, id) => {
@@ -150,7 +156,7 @@ const Favorites = () => {
             {ipAddressData.map(ipAddress => {
                     return (
                         <Card className={classes.card} key={ipAddress._id}>
-                            <IconButton className={classes.editIcon} onClick={() => onEditClick(ipAddress._id)}>
+                            <IconButton className={classes.editIcon} onClick={() => onEditClick(ipAddress._id, null)}>
                                 <EditIcon  />
                             </IconButton>
                                 <CardActionArea>

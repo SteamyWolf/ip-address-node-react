@@ -16,7 +16,8 @@ const useStyles = makeStyles((theme) => ({
     },
     form: {
         margin: '0 auto',
-        width: '200px'
+        width: '200px',
+        marginTop: 30
     },
     buttonDiv: {
         width: '100%',
@@ -26,6 +27,9 @@ const useStyles = makeStyles((theme) => ({
     textField: {
         width: '100%'
     },
+    red: {
+        color: 'crimson'
+    }
 }));
 
 const Location = () => {
@@ -35,16 +39,24 @@ const Location = () => {
     const [loading, setLoading] = useState(false);
     const [favorited, setFavorited] = useState(false);
     const [errorMsg, setErrorMsg] = useState('');
+    const [bigError, setBigError] = useState('')
 
     const handleInputChange = (e) => setIp(e.target.value);
 
     const fetchIpAddressData = async () => {
         setLoading(true);
         setFavorited(false);
+        setBigError('');
         try {
             const fetchedIpAddressData = await axios.get(`http://localhost:3000/location/${ip}`);
             console.log(fetchedIpAddressData.data)
+            if (fetchedIpAddressData.data.status === 'fail') {
+                setBigError(fetchedIpAddressData.data.message);
+                setLoading(false)
+                return;
+            }
             setIpAddressData(fetchedIpAddressData.data)
+            setErrorMsg('');
         } catch (err) {
             console.log(err)
         }
@@ -78,6 +90,7 @@ const Location = () => {
     return (
         <>
             {loading ? <CircularProgress /> : null}
+            {bigError ? <div className={classes.red}>{bigError}</div>: null}
             <form className={classes.form}>
                 <TextField className={classes.textField} placeholder="Enter IP Address here" value={ip} onChange={handleInputChange}/>
                 <div className={classes.buttonDiv}>
