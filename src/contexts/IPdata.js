@@ -3,7 +3,7 @@ import React, { useState, createContext } from 'react';
 export const IPdataContext = createContext();
 
 const IPdataContextProvider = (props) => {
-    const [ipAddressData, setIpAddressData] = useState({})
+    const [ipAddressData] = useState({})
 
     return (
         <IPdataContext.Provider value={{ipAddressData}}>

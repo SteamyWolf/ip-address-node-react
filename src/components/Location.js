@@ -48,7 +48,7 @@ const Location = () => {
         setFavorited(false);
         setBigError('');
         try {
-            const fetchedIpAddressData = await axios.get(`http://localhost:3000/location/${ip}`);
+            const fetchedIpAddressData = await axios.get(`https://ip-address-app-wyatt.herokuapp.com/location/${ip}`);
             console.log(fetchedIpAddressData.data)
             if (fetchedIpAddressData.data.status === 'fail') {
                 setBigError(fetchedIpAddressData.data.message);
@@ -70,7 +70,7 @@ const Location = () => {
                 setLoading(false);
                 setErrorMsg('Organization Required')
             }
-            const savedIP = await axios.post('http://localhost:3000/location/saveLocation', {
+            const savedIP = await axios.post('https://ip-address-app-wyatt.herokuapp.com/location/saveLocation', {
                 ip: ipAddressData.query,
                 country: ipAddressData.country,
                 city: ipAddressData.city,

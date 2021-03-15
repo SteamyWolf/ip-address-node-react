@@ -68,10 +68,8 @@ const Favorites = () => {
 
     const fetchFavorites = async () => {
         try {
-            const fetchedFavorites = await axios.get('http://localhost:3000/location/favorites')
-            console.log(fetchedFavorites)
+            const fetchedFavorites = await axios.get('https://ip-address-app-wyatt.herokuapp.com/location/favorites')
             let mappedFavorites = fetchedFavorites.data.map(favorite => ({editing: false, ...favorite}))
-            console.log(mappedFavorites)
             setIpAddressData(mappedFavorites)
         } catch (err) {
             console.log(err)
@@ -84,10 +82,8 @@ const Favorites = () => {
 
     const deleteIP = async (ip) => {
         setLoading(true);
-        let deletion = await axios.delete(`http://localhost:3000/location/delete/${ip}`);
-        console.log(deletion)
+        let deletion = await axios.delete(`https://ip-address-app-wyatt.herokuapp.com/location/delete/${ip}`);
         let index = ipAddressData.findIndex(address => address._id === deletion.data._id)
-        console.log(index)
         if (ipAddressData.length === 1) {
             setIpAddressData([])
         } else {
@@ -113,31 +109,23 @@ const Favorites = () => {
     }
 
     const saveChanges = async (id) => {
-        console.log(editingFavorite, id)
-        let updated = await axios.put(`http://localhost:3000/location/put`, editingFavorite);
-        console.log(updated)
+        let updated = await axios.put(`https://ip-address-app-wyatt.herokuapp.com/location/put`, editingFavorite);
         onEditClick(id, updated.data)
     }
 
     const onChanges = (event, string, id) => {
         if (string === 'ip') {
             setEditingFavorite({...editingFavorite, ip: event.target.value})
-            // console.log(editingFavorite)
         } else if (string === 'country') {
             setEditingFavorite({...editingFavorite, country: event.target.value})
-            // console.log(editingFavorite)
         } else if (string === 'city') {
             setEditingFavorite({...editingFavorite, city: event.target.value})
-            // console.log(editingFavorite)
         } else if (string === 'region') {
             setEditingFavorite({...editingFavorite, region: event.target.value})
-            // console.log(editingFavorite)
         } else if (string === 'timezone') {
             setEditingFavorite({...editingFavorite, timezone: event.target.value})
-            // console.log(editingFavorite)
         } else if (string === 'organization') {
             setEditingFavorite({...editingFavorite, organization: event.target.value})
-            // console.log(editingFavorite)
         } else {
             console.log('ERROR!!!')
         }
@@ -151,111 +139,112 @@ const Favorites = () => {
                 <CircularProgress />
             </div>
         : null}
-       
-        <div className={classes.ipData}>
-            {ipAddressData.map(ipAddress => {
-                    return (
-                        <Card className={classes.card} key={ipAddress._id}>
-                            <IconButton className={classes.editIcon} onClick={() => onEditClick(ipAddress._id, null)}>
-                                <EditIcon  />
-                            </IconButton>
-                                <CardActionArea>
-                                    <CardContent>
-                                        <Typography gutterBottom variant="h5" component="h2">
-                                            {!ipAddress.editing ? <div>IP: <b>{ipAddress.ip}</b></div> :   
-                                                <div className={classes.textFieldCenter}>
-                                                    IP: <TextField type="text" defaultValue={ipAddress.ip} variant="outlined" onChange={(e) => onChanges(e, 'ip', ipAddress._id)} />
-                                                </div>
-                                            }
-                                        </Typography>
-                                        <List>
-                                            <ListItem>
-                                                <ListItemAvatar>
-                                                    <Avatar className={classes.avatar}>
-                                                        <PublicIcon style={{fill: 'blue'}}/>
-                                                    </Avatar>
-                                                </ListItemAvatar>
-                                                <ListItemText>
-                                                    {!ipAddress.editing ? ipAddress.country : 
-                                                        <div>
-                                                            <TextField variant="outlined" defaultValue={ipAddress.country} onChange={(e) => onChanges(e, 'country', ipAddress._id)} />
-                                                        </div>
-                                                    }
-                                                </ListItemText>
-                                            </ListItem>
-                                            <ListItem>
-                                                <ListItemAvatar>
-                                                    <Avatar className={classes.avatar}>
-                                                        <LocationCityIcon color="secondary"/>
-                                                    </Avatar>
-                                                </ListItemAvatar>
-                                                <ListItemText>
-                                                    {!ipAddress.editing ? ipAddress.city : 
-                                                        <div>
-                                                            <TextField variant="outlined" defaultValue={ipAddress.city} onChange={(e) => onChanges(e, 'city', ipAddress._id)} />
-                                                        </div>
-                                                    }
+       {ipAddressData.length < 1 ? <div>You have no saved favorites. Go save some!</div> :
+            <div className={classes.ipData}>
+                {ipAddressData.map(ipAddress => {
+                        return (
+                            <Card className={classes.card} key={ipAddress._id}>
+                                <IconButton className={classes.editIcon} onClick={() => onEditClick(ipAddress._id, null)}>
+                                    <EditIcon  />
+                                </IconButton>
+                                    <CardActionArea>
+                                        <CardContent>
+                                            <Typography gutterBottom variant="h5" component="h2">
+                                                {!ipAddress.editing ? <div>IP: <b>{ipAddress.ip}</b></div> :   
+                                                    <div className={classes.textFieldCenter}>
+                                                        IP: <TextField type="text" defaultValue={ipAddress.ip} variant="outlined" onChange={(e) => onChanges(e, 'ip', ipAddress._id)} />
+                                                    </div>
+                                                }
+                                            </Typography>
+                                            <List>
+                                                <ListItem>
+                                                    <ListItemAvatar>
+                                                        <Avatar className={classes.avatar}>
+                                                            <PublicIcon style={{fill: 'blue'}}/>
+                                                        </Avatar>
+                                                    </ListItemAvatar>
+                                                    <ListItemText>
+                                                        {!ipAddress.editing ? ipAddress.country : 
+                                                            <div>
+                                                                <TextField variant="outlined" defaultValue={ipAddress.country} onChange={(e) => onChanges(e, 'country', ipAddress._id)} />
+                                                            </div>
+                                                        }
                                                     </ListItemText>
-                                            </ListItem>
-                                            <ListItem>
-                                                <ListItemAvatar>
-                                                    <Avatar className={classes.avatar}>
-                                                        <LandscapeIcon style={{fill: 'green'}}/>
-                                                    </Avatar>
-                                                </ListItemAvatar>
-                                                <ListItemText>
-                                                    {!ipAddress.editing ? ipAddress.region :
-                                                        <div>
-                                                            <TextField variant="outlined" defaultValue={ipAddress.region} onChange={(e) => onChanges(e, 'region', ipAddress._id)} />
-                                                        </div>
-                                                    }
+                                                </ListItem>
+                                                <ListItem>
+                                                    <ListItemAvatar>
+                                                        <Avatar className={classes.avatar}>
+                                                            <LocationCityIcon color="secondary"/>
+                                                        </Avatar>
+                                                    </ListItemAvatar>
+                                                    <ListItemText>
+                                                        {!ipAddress.editing ? ipAddress.city : 
+                                                            <div>
+                                                                <TextField variant="outlined" defaultValue={ipAddress.city} onChange={(e) => onChanges(e, 'city', ipAddress._id)} />
+                                                            </div>
+                                                        }
+                                                        </ListItemText>
+                                                </ListItem>
+                                                <ListItem>
+                                                    <ListItemAvatar>
+                                                        <Avatar className={classes.avatar}>
+                                                            <LandscapeIcon style={{fill: 'green'}}/>
+                                                        </Avatar>
+                                                    </ListItemAvatar>
+                                                    <ListItemText>
+                                                        {!ipAddress.editing ? ipAddress.region :
+                                                            <div>
+                                                                <TextField variant="outlined" defaultValue={ipAddress.region} onChange={(e) => onChanges(e, 'region', ipAddress._id)} />
+                                                            </div>
+                                                        }
+                                                        </ListItemText>
+                                                </ListItem>
+                                                <ListItem>
+                                                    <ListItemAvatar>
+                                                        <Avatar className={classes.avatar}>
+                                                            <ScheduleIcon style={{fill: 'orange'}}/>
+                                                        </Avatar>
+                                                    </ListItemAvatar>
+                                                    <ListItemText>
+                                                        {!ipAddress.editing ? ipAddress.timezone :
+                                                            <div>
+                                                                <TextField variant="outlined" defaultValue={ipAddress.timezone} onChange={(e) => onChanges(e, 'timezone', ipAddress._id)} />
+                                                            </div>
+                                                        }
+                                                        </ListItemText>
+                                                </ListItem>
+                                                <ListItem>
+                                                    <ListItemAvatar>
+                                                        <Avatar className={classes.avatar}>
+                                                            <BusinessCenterIcon style={{fill: 'purple'}}/>
+                                                        </Avatar>
+                                                    </ListItemAvatar>
+                                                    <ListItemText>
+                                                        {!ipAddress.editing ? ipAddress.organization :
+                                                            <div>
+                                                                <TextField variant="outlined" defaultValue={ipAddress.organization} onChange={(e) => onChanges(e, 'organization', ipAddress._id)} />
+                                                            </div>
+                                                        }
                                                     </ListItemText>
-                                            </ListItem>
-                                            <ListItem>
-                                                <ListItemAvatar>
-                                                    <Avatar className={classes.avatar}>
-                                                        <ScheduleIcon style={{fill: 'orange'}}/>
-                                                    </Avatar>
-                                                </ListItemAvatar>
-                                                <ListItemText>
-                                                    {!ipAddress.editing ? ipAddress.timezone :
-                                                        <div>
-                                                            <TextField variant="outlined" defaultValue={ipAddress.timezone} onChange={(e) => onChanges(e, 'timezone', ipAddress._id)} />
-                                                        </div>
-                                                    }
-                                                    </ListItemText>
-                                            </ListItem>
-                                            <ListItem>
-                                                <ListItemAvatar>
-                                                    <Avatar className={classes.avatar}>
-                                                        <BusinessCenterIcon style={{fill: 'purple'}}/>
-                                                    </Avatar>
-                                                </ListItemAvatar>
-                                                <ListItemText>
-                                                    {!ipAddress.editing ? ipAddress.organization :
-                                                        <div>
-                                                            <TextField variant="outlined" defaultValue={ipAddress.organization} onChange={(e) => onChanges(e, 'organization', ipAddress._id)} />
-                                                        </div>
-                                                    }
-                                                </ListItemText>
-                                            </ListItem>
-                                        </List>
-                                    </CardContent>
-                                </CardActionArea>
-                                <CardActions>
-                                    {!ipAddress.editing ?
-                                        <Button size="small" color="secondary" variant="contained" startIcon={<DeleteIcon />} onClick={() => deleteIP(ipAddress._id)}>
-                                            Delete
-                                        </Button>
-                                    : 
-                                        <Button size="small" color="primary" variant="contained" startIcon={<SaveAltIcon />} onClick={() => saveChanges(ipAddress._id)}>Save Changes</Button>
-                                    }
-                                </CardActions>
-                            </Card>
-                    )
-                })} 
-        </div>
-            
+                                                </ListItem>
+                                            </List>
+                                        </CardContent>
+                                    </CardActionArea>
+                                    <CardActions>
+                                        {!ipAddress.editing ?
+                                            <Button size="small" color="secondary" variant="contained" startIcon={<DeleteIcon />} onClick={() => deleteIP(ipAddress._id)}>
+                                                Delete
+                                            </Button>
+                                        : 
+                                            <Button size="small" color="primary" variant="contained" startIcon={<SaveAltIcon />} onClick={() => saveChanges(ipAddress._id)}>Save Changes</Button>
+                                        }
+                                    </CardActions>
+                                </Card>
+                        )
+                    })} 
+   </div>
+       }
+        
         </>
     )
 }
