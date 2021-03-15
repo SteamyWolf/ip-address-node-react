@@ -17,10 +17,16 @@ const useStyles = makeStyles((theme) => ({
     },
     avatar: {
         backgroundColor: 'white'
+    },
+    error: {
+        color: 'red'
+    },
+    success: {
+        color: 'green'
     }
 }));
 
-const LocationCard = ( {data, saveToFavorites, favorited} ) => {
+const LocationCard = ( {data, saveToFavorites, errorMsg, favorited} ) => {
     const classes = useStyles();
     let ipAddressData = data;
 
@@ -77,9 +83,14 @@ const LocationCard = ( {data, saveToFavorites, favorited} ) => {
                         </CardContent>
                     </CardActionArea>
                     <CardActions>
-                        <Button size="small" color="primary" variant="contained" startIcon={favorited ? <StarIcon /> : <StarBorderIcon />} onClick={saveToFavorites}>
+                        <Button size="small" color="primary" variant="contained" startIcon={favorited ? <StarIcon /> : <StarBorderIcon />} disabled={favorited} onClick={saveToFavorites}>
                             Save to Favorites
                         </Button>
+                        {favorited ? 
+                            <p className={classes.success}>Successfully Saved to Favorites!</p>
+                        : errorMsg ?
+                            <p className={classes.error}>{errorMsg}</p>
+                        : null}
                     </CardActions>
                 </Card>
         </>

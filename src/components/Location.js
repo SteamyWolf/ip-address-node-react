@@ -34,6 +34,7 @@ const Location = () => {
     const [ip, setIp] = useState('');
     const [loading, setLoading] = useState(false);
     const [favorited, setFavorited] = useState(false);
+    const [errorMsg, setErrorMsg] = useState('');
 
     const handleInputChange = (e) => setIp(e.target.value);
 
@@ -53,7 +54,10 @@ const Location = () => {
     const saveToFavorites = async () => {
         setLoading(true)
         try {
-            setFavorited(true);
+            if (ipAddressData.org === '') {
+                setLoading(false);
+                setErrorMsg('Organization Required')
+            }
             const savedIP = await axios.post('http://localhost:3000/location/saveLocation', {
                 ip: ipAddressData.query,
                 country: ipAddressData.country,
@@ -63,8 +67,10 @@ const Location = () => {
                 organization: ipAddressData.org
             })
             console.log(savedIP)
+            setFavorited(true);
         } catch(err) {
             console.log(err)
+            setFavorited(false);
         }
         setLoading(false)
     }
@@ -79,7 +85,7 @@ const Location = () => {
                 </div>
             </form>
             {ipAddressData && Object.keys(ipAddressData).length > 0 && ipAddressData.constructor === Object ? 
-                <LocationCard data={ipAddressData} saveToFavorites={saveToFavorites} favorited={favorited}/>
+                <LocationCard data={ipAddressData} saveToFavorites={saveToFavorites} errorMsg={errorMsg} favorited={favorited}/>
             : null}
         </>
     )
