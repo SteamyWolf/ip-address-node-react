@@ -7,12 +7,12 @@ The server is live on heroku and does not require any configuration on your end.
 Create Read Update Delete
 
 ## CREATE
-GET #1: `https://ip-address-app-wyatt.herokuapp.com/:ip` grabs another: `http://ip-api.com/json/${req.params.ip}`
+GET #1: `https://ip-address-app-wyatt.herokuapp.com/:ip` grabs another: GET #2: `http://ip-api.com/json/${req.params.ip}`
 POST #1: `https://ip-address-app-wyatt.herokuapp.com/saveLocation`
 The ability to Create a new Favorite IP address is seen on the home page where you are prompted to enter an IP Address. Once you have done so, you should see a card that contains various facts about the IP address you enteres such as the address, city, region, and provider all provided from an API that locates IP Addresses. Below, in the card, you will see a button to save the IP to a list of favorites. This CREATE's a new document on MongoDB that contains your IP address.
 
 ## READ
-GET #2: `https://ip-address-app-wyatt.herokuapp.com/favorites`
+GET #3: `https://ip-address-app-wyatt.herokuapp.com/favorites`
 When you navigate to the favorites section, you will see a list of all of your favorited IP Addresses. Upon navigation, a GET request is sent to the server that then communicates to the data base to retrieve the documents requested. In this case, all of the documents are fetched from the favorites collection on MongoDB.
 
 ## UPDATE
