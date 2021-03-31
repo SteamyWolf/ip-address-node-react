@@ -1,71 +1,26 @@
-# Getting Started with Create React App
+# How to start with this project
+To run, download the project from GitHub and use `npm start` in an open terminal to start the project and view the code on a live dev server. Or, you can visit https://ip-address-collection.netlify.app/ to test out the app right now and save some of your favorite IP's.
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+The server is live on heroku and does not require any configuration on your end. The server is currently live and can be tested all through this application by performing one of the actions below:
 
-## Available Scripts
+# CRUD:
+Create Read Update Delete
 
-In the project directory, you can run:
+## CREATE
+GET #1 & POST #1:
+The ability to Create a new Favorite IP address is seen on the home page where you are prompted to enter an IP Address. Once you have done so, you should see a card that contains various facts about the IP address you enteres such as the address, city, region, and provider all provided from an API that locates IP Addresses. Below, in the card, you will see a button to save the IP to a list of favorites. This CREATE's a new document on MongoDB that contains your IP address.
 
-### `npm start`
+## READ
+GET #2: 
+When you navigate to the favorites section, you will see a list of all of your favorited IP Addresses. Upon navigation, a GET request is sent to the server that then communicates to the data base to retrieve the documents requested. In this case, all of the documents are fetched from the favorites collection on MongoDB.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+## UPDATE
+PUT #1:
+This proved to be a bit tricky but it is working as it should. The ability to update a specific saved IP address to whatever data you want. Inputs will appear allowing you to save/change data in any of the fields. The inputs are prepopulated with the data that was originally in the card. Canceling the edit will return all the previous data as if the card had never been edited. Only upon clicking the save changes button will the new data actually be sent to the server and saved in the database. This is all done through a PUT request sitting on the server.
+GET #3:
+The last GET occurs when the saved data is returned to the user. Another GET is required to update all of the front-end data to be displayed. The original state of the project needs to be updated accordingly allowing the user to see the visual changes on their end. 
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+## DELETE
+DELETE #1:
+If you want to change how many IP Addresses you have saved or no longer want a specific IP Address to be saved, then you have the option to delete it by clicking on the Delete button on each IP Address card. This sends a DELETE request to the server which then pulls the specific IP Address from the database to then handle the deletion on the server.
 
-### `npm test`
-
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
-
-### `npm run build`
-
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
-# ip-address-node-react
