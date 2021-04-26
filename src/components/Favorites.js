@@ -111,8 +111,6 @@ const Favorites = () => {
         let returnedFavorite = {editing: false, ...updated.data};
         newIP.splice(indexOfOldFavorite, 1, returnedFavorite)
         setIpAddressData(newIP)
-
-
     }
 
     const onChanges = (event, string, id) => {
@@ -130,8 +128,7 @@ const Favorites = () => {
             setEditingFavorite({...editingFavorite, organization: event.target.value})
         } else {
             console.log('ERROR!!!')
-        }
-        
+        } 
     }
 
     return (
